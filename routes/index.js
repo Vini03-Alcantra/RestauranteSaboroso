@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var conn = require("./../inc/db")
+var reservations = require('./../inc/reservations')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -42,11 +43,21 @@ router.get("/menus", function(req, res, next){
 })
 
 router.get("/reservations", function(req, res, next){
-  res.render("reservation", {
-    title: 'Reservation - Restaurante Saboroso',
-    background: "images/img_bg_2.jpg",
-    h1: "Reserve uma mesa"
-  })
+  reservations.render(req, res)
+})
+
+router.post("/reservations", function(req, res, next){
+  if (!req.body.name) {
+    
+  }else if(!req.body.email){
+    res.send("Digite o email")
+  }else if(!req.body.date){
+    res.send("Selecione data")
+  }else if(!req.body.time){
+    res.send("Selcione a hora")
+  }else{
+    res.send(req.body)
+  }
 })
 
 router.get("/services", function(req, res, next){
