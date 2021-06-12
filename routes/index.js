@@ -26,11 +26,19 @@ router.get("/contacts", function(req, res, next){
 })
 
 router.get("/menus", function(req, res, next){
+
+  conn.query(`SELECT * FROM tb_menus ORDER BY title`, (err, results) => {
+    if (err) {
+      console.log(err)
+    }
+
   res.render("menu", {
     title: 'Menu - Restaurante Saboroso',
     background: "images/img_bg_1.jpg",
-    h1: "Saborei nosso menu"
+    h1: "Saborei nosso menu",
+    menus: results
   })
+})
 })
 
 router.get("/reservations", function(req, res, next){
