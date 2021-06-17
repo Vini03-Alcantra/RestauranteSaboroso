@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var conn = require("./../inc/db")
 var reservations = require('./../inc/reservations')
-
+var contacts = require("./../inc/contacts")
 /* GET home page. */
 router.get('/', function(req, res, next) {
   
@@ -19,11 +19,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get("/contacts", function(req, res, next){
-  res.render("contact", {
-    title: 'Contact - Restaurante Saboroso',
-    background: "images/img_bg_3.jpg",
-    h1: "Say Hello"
-  })
+  contacts.render(req, res)
 })
 
 router.get("/menus", function(req, res, next){
@@ -44,6 +40,14 @@ router.get("/menus", function(req, res, next){
 
 router.get("/reservations", function(req, res, next){
   reservations.render(req, res)
+})
+
+router.get("/services", function(req, res, next){
+  res.render("services", {
+    title: 'Service - Restaurante Saboroso',
+    background: "images/img_bg_1.jpg",
+    h1: "É um prazer poder servir"
+  })
 })
 
 router.post("/reservations", function(req, res, next){
@@ -67,12 +71,21 @@ router.post("/reservations", function(req, res, next){
   }
 })
 
-router.get("/services", function(req, res, next){
-  res.render("services", {
-    title: 'Service - Restaurante Saboroso',
-    background: "images/img_bg_1.jpg",
-    h1: "É um prazer poder servir"
-  })
+router.post("/contacts", (req, res, next) => {
+  if(!req.body.name){
+    contacts.render(req, res, "Nome não digitado")    
+  }else if(!req.body.email){
+    contacts.render(req, res, "Email não digitado") 
+  }else if(!req.body.message){
+    contacts.render(req, res, "Mensagem não digitada")
+  }else{
+    contacts.save(req.body).then(results => {
+      req.body = {}  
+      contacts.render(req, res, null, "Mensagem enviada com sucesso")
+    }).catch(err => {
+      contacts.render(req, res, err.message)
+    })
+  }  
 })
 
 
