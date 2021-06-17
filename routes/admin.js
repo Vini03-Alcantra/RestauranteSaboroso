@@ -1,4 +1,5 @@
 var express = require("express")
+var users = require("./../inc/users")
 var router = express.Router()
 
 router.get("/", (req, res) => {
@@ -7,10 +8,23 @@ router.get("/", (req, res) => {
     })
 })
 
-router.get("/login", (req, res) => {
-    if (!req.session.views) req.session.views = 0
-    console.log(req.session.views++)
-    res.render("admin/login")
+router.get("/login", (req, res) => {    
+    users.render(req, res, null)
+})
+
+router.post("/login", (req, res) => {
+    if (!req.body.email) {
+        users.render(req, res, "Preencha o campo email")
+    } else if(!req.body.password){
+        users.render(req, res, "Preencha o campo senha")
+    } else {
+        users.login(req.body.email, req.body.password).then(user => {
+            req.session.user = user
+            res.redirect("/admin")
+        }).catch(err => {
+            users.render(req, res, err.message || err)
+        })
+    }
 })
 
 router.get("/contacts", (req, res) => {
@@ -34,5 +48,7 @@ router.get("/reservations", (req, res) => {
 router.get("/users", (req, res) => {
     res.render("admin/users")
 })
+
+
 
 module.exports = router
