@@ -66,7 +66,11 @@ router.get("/menus", async (req, res) => {
 })
 
 router.post("/menus", (req, res) => {
-    res.send(req.body)
+    menus.save(req.fields, req.files).then(results => {
+        res.send(results)
+    }).catch(err => {
+        res.send(err)
+    })
 })
 
 router.get("/reservations", (req, res) => {
