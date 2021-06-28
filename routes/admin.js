@@ -12,7 +12,7 @@ router.use((req, res, next) => {
 })
 
 router.use(function(req, res, next){
-    req.menus = admin.getMenus()
+    req.menus = admin.getMenus(req)
     next()
 })
 
