@@ -22,9 +22,7 @@ router.get("/logout", (req, res, next) => {
 })
 
 router.get("/", (req, res) => {
-    res.render("admin/index", {
-        menus: req.menus
-    })
+    res.render("admin/index", admin.getParams(req))
 })
 
 router.get("/login", (req, res) => {    
@@ -47,34 +45,25 @@ router.post("/login", (req, res) => {
 })
 
 router.get("/contacts", (req, res) => {
-    res.render("admin/contacts", {
-        menus: req.menus
-    })
+    res.render("admin/contacts", admin.getParams(req))
 })
 
 router.get("/emails", (req, res) => {
-    res.render("admin/emails", {
-        menus: req.menus
-    })
+    res.render("admin/emails", admin.getParams(req))
 })
 
 router.get("/menus", (req, res) => {
-    res.render("admin/menus", {
-        menus: req.menus
-    })
+    res.render("admin/menus", admin.getParams(req))
 })
 
 router.get("/reservations", (req, res) => {
-    res.render("admin/reservations", {
-        date: {},
-        menus: req.menus
-    })
+    res.render("admin/reservations", admin.getParams(req, {
+        date: {}
+    }))
 })
 
 router.get("/users", (req, res) => {
-    res.render("admin/users", {
-        menus: req.menus
-    })
+    res.render("admin/users", admin.getParams(req))
 })
 
 
