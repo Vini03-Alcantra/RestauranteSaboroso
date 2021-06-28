@@ -2,6 +2,7 @@ var express = require("express")
 var users = require("./../inc/users")
 var admin = require("./../inc/admin")
 var router = express.Router()
+var menus = require("./../inc/menus")
 
 router.use((req, res, next) => {
     if (['/login'].indexOf(req.url) == -1 && !req.session.user) {
@@ -56,8 +57,12 @@ router.get("/emails", (req, res) => {
     res.render("admin/emails", admin.getParams(req))
 })
 
-router.get("/menus", (req, res) => {
-    res.render("admin/menus", admin.getParams(req))
+router.get("/menus", async (req, res) => {
+    menus.getMenus().then(data => {        
+        res.render("admin/menus", admin.getParams(req, {            
+            data
+        }))
+    })    
 })
 
 router.get("/reservations", (req, res) => {
