@@ -1,5 +1,6 @@
 var express = require("express")
 var users = require("./../inc/users")
+var admin = require("./../inc/admin")
 var router = express.Router()
 
 router.use((req, res, next) => {
@@ -10,14 +11,20 @@ router.use((req, res, next) => {
     }
 })
 
+router.use(function(req, res, next){
+    req.menus = admin.getMenus()
+    next()
+})
+
 router.get("/logout", (req, res, next) => {
     delete req.session.user;
-    res.redirect("/admin/login")
-    console.log("SAIR")
+    res.redirect("/admin/login")    
 })
 
 router.get("/", (req, res) => {
-    res.render("admin/index")
+    res.render("admin/index", {
+        menus: req.menus
+    })
 })
 
 router.get("/login", (req, res) => {    
@@ -40,25 +47,34 @@ router.post("/login", (req, res) => {
 })
 
 router.get("/contacts", (req, res) => {
-    res.render("admin/contacts")
+    res.render("admin/contacts", {
+        menus: req.menus
+    })
 })
 
 router.get("/emails", (req, res) => {
-    res.render("admin/emails")
+    res.render("admin/emails", {
+        menus: req.menus
+    })
 })
 
 router.get("/menus", (req, res) => {
-    res.render("admin/menus")
+    res.render("admin/menus", {
+        menus: req.menus
+    })
 })
 
 router.get("/reservations", (req, res) => {
     res.render("admin/reservations", {
-        date: {}
+        date: {},
+        menus: req.menus
     })
 })
 
 router.get("/users", (req, res) => {
-    res.render("admin/users")
+    res.render("admin/users", {
+        menus: req.menus
+    })
 })
 
 
