@@ -22,7 +22,11 @@ router.get("/logout", (req, res, next) => {
 })
 
 router.get("/", (req, res) => {
-    res.render("admin/index", admin.getParams(req))
+    admin.dashboard().then(data => {
+        res.render("admin/index", admin.getParams(req, {
+            data
+        }))
+    })
 })
 
 router.get("/login", (req, res) => {    
