@@ -8,6 +8,7 @@ const redis = require("redis")
 let session = require("express-session")
 let RedisStore = require("connect-redis")(session)
 let client = redis.createClient()
+let formidable = require("formidable")
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');

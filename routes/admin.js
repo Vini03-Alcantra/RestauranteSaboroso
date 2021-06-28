@@ -65,6 +65,10 @@ router.get("/menus", async (req, res) => {
     })    
 })
 
+router.post("/menus", (req, res) => {
+    res.send(req.body)
+})
+
 router.get("/reservations", (req, res) => {
     res.render("admin/reservations", admin.getParams(req, {
         date: {}
