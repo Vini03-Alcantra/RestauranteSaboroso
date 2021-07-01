@@ -36,6 +36,7 @@ router.get("/login", (req, res) => {
 
 router.post("/login", (req, res) => {
     if (!req.body.email) {
+        console.log("Mulher de fases")
         users.render(req, res, "Preencha o campo email")
     } else if(!req.body.password){
         users.render(req, res, "Preencha o campo senha")
@@ -47,6 +48,7 @@ router.post("/login", (req, res) => {
             users.render(req, res, err.message || err)
         })
     }
+    
 })
 
 router.get("/contacts", (req, res) => {

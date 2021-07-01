@@ -165,6 +165,7 @@
     <!-- Main Footer -->
     <%-include("./inc/footer")-%>
 
+
   </div>  
 
   <%-include("./inc/scripts")-%>
@@ -183,8 +184,11 @@
     })
   </script>
 
+  <script src="/js/hcode-filereader.js"></script>
 
   <script>
+    new HcodeFileReader("#modal-create [type=file]", "#modal-create img")
+  
     let formCreate = document.querySelector("#modal-create form");
       formCreate.addEventListener("submit", e => {
         e.preventDefault()
