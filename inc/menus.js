@@ -19,36 +19,36 @@ module.exports = {
     save(fields, files){
         return new Promise((resolve, reject) => {
             fields.photo = `images/${path.parse(files.photo.path).base}`;
-            let query, params;
+            let query, queryPhoto = '',params = [
+                fields.title,
+                fields.description,
+                fields.price
+            ];
+
+            if (files.photo.name) {
+                queryPhoto = 'photo = ?'
+                params.push(fields.photo)
+            }
 
             if (parseInt(fields.id) > 0) {
+                params.push(fields.id)
                 query = `
                     UPDATE tb_menus 
                     SET title = ?,
                         description = ?,
                         price = ?,
-                        photo = ?
+                        ${queryPhoto}
                     where id = ?
-                `;
-                params = [
-                    fields.title,
-                    fields.description,
-                    fields.price,
-                    fields.photo,
-                    fields.id
-                ];                
+                `;            
             }else {
+                if (!files.photo.name) {
+                    reject('Send a picture of pplace')
+                }
+
                 query = `
                     INSERT INTO tb_menus(title, description, price, photo)
                     values(?, ?, ?, ?)
                 `;
-
-                params = [
-                    fields.title,
-                    fields.description,
-                    fields.price,
-                    fields.photo
-                ]
             }
             
             conn.query(query, params, (err, results) => {
