@@ -3,6 +3,7 @@ var users = require("./../inc/users")
 var admin = require("./../inc/admin")
 var router = express.Router()
 var menus = require("./../inc/menus")
+var reservations = require("./../inc/reservations")
 
 router.use((req, res, next) => {
     if (['/login'].indexOf(req.url) == -1 && !req.session.user) {
@@ -85,6 +86,28 @@ router.get("/users", (req, res) => {
     res.render("admin/users", admin.getParams(req))
 })
 
+router.delete("/menus/:id", function(req, res, next){
+    menus.delete(req.params.id).then(results => {
+        res.send(results)
+    }).catch(err => {
+        res.send(err)
+    })
+})
 
+router.post("/reservations", (req, res) => {
+    reservations.save(req.fields, req.files).then(results => {
+        res.send(results)
+    }).catch(err => {
+        res.send(err)
+    })
+})
+
+router.delete("/reservations/:id", function(req, res, next){
+    reservations.delete(req.params.id).then(results => {
+        res.send(results)
+    }).catch(err => {
+        res.send(err)
+    })
+})
 
 module.exports = router
