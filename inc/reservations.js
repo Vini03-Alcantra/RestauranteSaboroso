@@ -2,17 +2,6 @@ var conn = require("./db")
 
 module.exports = {
 
-    render(req, res, error, success){
-        res.render("reservation", {
-            title: "Reservas - Restaurante Saboroso",
-            background: "images/img_bg_2.jpg",
-            h1: "Reserve uma mesa", 
-            body: req.body,
-            error,
-            success
-        })
-    },
-
     save(fields){
         return new Promise((resolve, reject) => {
             if (fields.date.indexOf('/') > -1) {
@@ -54,6 +43,20 @@ module.exports = {
                     resolve(results)
                 }
             })
+        })
+    },
+
+    getReservations(){
+        return new Promise((resolve, reject) => {
+            conn.query(
+                `SELECT * FROM tb_reservations ORDER BY date DESC`,
+                (err, results) => {
+                    if (err) {
+                        reject(err)
+                    } 
+                    resolve(results)
+                }
+            )
         })
     }
 
