@@ -1,9 +1,12 @@
 var express = require("express")
 var users = require("./../inc/users")
 var admin = require("./../inc/admin")
+var moment = require("moment")
 var router = express.Router()
 var menus = require("./../inc/menus")
 var reservations = require("./../inc/reservations")
+
+moment.locale("pt-BR")
 
 router.use((req, res, next) => {
     if (['/login'].indexOf(req.url) == -1 && !req.session.user) {
@@ -80,7 +83,8 @@ router.get("/reservations", (req, res) => {
     reservations.getReservations().then(data => {
         res.render("admin/reservations", admin.getParams(req, {
             date: {},
-            data
+            data,
+            moment
         }))
     })
 })
